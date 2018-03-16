@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import filter from './components/filter'
+import Filter from './components/Filter'
 import './App.css';
 
 
 
 class App extends Component {
   render() {
-
-    
-    
     return (
       <div className="App">
         <header className="App-header">
@@ -28,8 +24,10 @@ class App extends Component {
             <Col> Search a restaurant by : </Col> 
           </Row>
           <Row>
-            <Col> 
-              <filter filtre={['paris20','puteaux']} name='Borough'/>
+            <Col>
+              <Filter name="Borough"/>
+              <Filter name="CuisineType"/>
+              <Filter name="CriticalFlag"/>
             </Col>
           </Row>
         
