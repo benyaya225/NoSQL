@@ -1,0 +1,25 @@
+{
+  "name": "nosql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "server": "node bin/www",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benyaya225/NoSQL.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/benyaya225/NoSQL/issues"
+  },
+  "homepage": "https://github.com/benyaya225/NoSQL#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "mongoose": "^5.0.10",
+    "mongoose-schema-extend": "^0.2.2"
+  }
+}
