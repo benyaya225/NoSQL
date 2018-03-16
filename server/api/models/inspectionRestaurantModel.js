@@ -18,7 +18,7 @@ module.exports = mongoose.model('Restaurant',RestaurantSchema );
 //Inspection restaurant Class
 var InspectionRestaurantSchema = new Schema({
     idRestaurant : {type: Number , required: true},
-    restaurant : {type: Restaurant , required : true},
+    restaurant : {type: RestaurantSchema , required : true},
     criticalFlag : {type : String, required : true},
     grade : {type : String , required : true},
     inspectionDate : {type : String , required : true},
