@@ -10,27 +10,26 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h3 className="App-title">WELCOME TO YOUR INSPECTIONS RESTAURANT APPLICATION</h3>
+          <h3 className="App-title">INSPECTIONS RESTAURANT WEB APP</h3>
         </header>
 
         <p className="App-intro">
-          <br/>
+          <br/> 
           You can use this web app to search restaurants and their inspection with various filters.
           <br/>
           <br/>
         </p>
         <Container>
           <Row>
-            <Col> Search a restaurant by : </Col> 
-          </Row>
-          <Row>
             <Col>
+              Filters : 
               <Filter name="Borough"/>
-              <Filter name="CuisineType"/>
-              <Filter name="CriticalFlag"/>
+              <Filter name="Cuisine Type"/>
+              <Filter name="Critical Flag"/>
+              <Filter name="Grade"/>
+              <Filter name="Violation Code"/>
             </Col>
           </Row>
-        
         </Container>
         
       </div>
