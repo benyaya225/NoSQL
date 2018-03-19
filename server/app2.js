@@ -4,8 +4,8 @@
 // =============================================================================
 
 // call the packages we need
-var express    = require('express');        // call express
-var app        = express();                 // define our app using express
+var express = require('express');        // call express
+var app = express();                 // define our app using express
 var bodyParser = require('body-parser');
 var elastic = require('./elastic');
 var client = require('./Connexion')
@@ -21,17 +21,46 @@ var port = process.env.PORT || 8080;        // set our port
 var router = express.Router();              // get an instance of the express Router
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-router.get('/', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });   
+router.get('/', function (req, res) {
+  res.json({ message: 'hooray! welcome to our api!' });
 });
 
 // more routes for our API will happen here
-router.get('/getData', function(req,res){
+router.get('/loadData', function (req, res) {
   elastic.readData()
-  .then((resul)=> {
-    elastic.AddData(resul,client)
-    .then((resul2)=> {res.send(resul2)})
-    .catch((err) => {console.log("ERROR OCCURED : "+err)})
+    .then((resul) => {
+      elastic.AddData(resul, client)
+        .then((resul2) => { res.send(resul2) })
+        .catch((err) => { console.log("ERROR OCCURED : " + err) })
+    })
+    .catch((err) => {
+      res.send(err)
+    })
+})
+
+/**
+ * Delete an index
+ */
+router.get('/delete/:index', function(req,res){
+  elastic.DeleteIndex(req.params.index,client)
+  .then((result)=>{
+    res.send(result)
+    console.log(result)
+  })
+  .catch((err)=>{
+    console.log(err)
+    res.send(err)
+  })
+})
+
+/**
+ * Retrieve all inspections_restaurant from elasticSearch
+ */
+router.get('/:index/:type', function (req, res) {
+  var config = {index : req.params.index , type : req.params.type}
+  elastic.Search(client,config)
+  .then((result)=> {
+    res.send(result)
   })
   .catch((err)=> {
     res.send(err)
