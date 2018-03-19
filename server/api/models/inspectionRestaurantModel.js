@@ -6,13 +6,13 @@ var Schema = mongoose.Schema;
 var RestaurantSchema = new Schema({
     name: {type : String, required : true},
     borough: {type : String, required : true},
-    buildingNum: {type : String, required : true},
+    buildingnum: {type : String, required : true},
     street: {type : String, required : true},
     zipcode: {type : String, required : true},
     cuisineType: {type : String, required : true},
     phone: {type : String, required : true}
 })
-module.exports = mongoose.model('Restaurant',RestaurantSchema );
+module.exports = mongoose.model('restaurant',RestaurantSchema);
 
     
 //Inspection restaurant Class
@@ -25,7 +25,6 @@ var InspectionRestaurantSchema = new Schema({
     score : {type : Number , required : true},
     violationCode : {type : String, required : true},
     violationDescription : {type : String, required : true}
-
 })
 module.exports = mongoose.model('InspectionRestaurant', InspectionRestaurantSchema);
 

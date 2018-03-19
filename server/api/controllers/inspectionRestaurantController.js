@@ -1,12 +1,11 @@
 var mongoose = require('mongoose');
-const Restaurant = mongoose.model('Restaurant');
+//const Restaurant = mongoose.model('restaurant');
 const InspectionRestaurant = mongoose.model('InspectionRestaurant');
 
 
 exports.restaurant_Description = function(req,res){
     Restaurant.findOne({'name': req.params.restaurantName},function(err,restaurant){
-        if(err) res.send(err);
-        
+        if(err) res.send(err);   
         res.json(restaurant);
     })
 
@@ -30,7 +29,7 @@ exports.list_All_RestaurantAttribute = function(req,res){
 exports.list_All = function(req,res){
     InspectionRestaurant.find({},function(err,result){
         if(err) res.send(err);
-
+        console.log(result)
         res.json(result);
     })
 }
