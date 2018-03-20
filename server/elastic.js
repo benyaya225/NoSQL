@@ -63,7 +63,7 @@ module.exports.Search = function (client, config) {
         },(err,res) =>{
             if(err) return reject(err)
             else {
-                return resolve(res)
+                return resolve(res.responses)
             }
         })
     })
