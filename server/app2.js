@@ -66,6 +66,22 @@ router.get('/:index/:type', function (req, res) {
     res.send(err)
   })
 })
+router.get('/restaurants', function (req, res) {
+  console.log(req.query)
+  var query = {
+    query: {
+      match: req.query
+    }
+  }
+
+  client.search({
+    index: 'inspectionsrestaurant',
+    type: 'inspectionrestaurant',
+    body: query
+  }, function (error, response) {
+    res.send(response)
+  });
+})
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
 app.use('/api', router);
