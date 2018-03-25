@@ -66,11 +66,14 @@ router.get('/:index/:type', function (req, res) {
     res.send(err)
   })
 })
+
 router.get('/restaurants', function (req, res) {
+  var search = req.query
+  console.log(search)
   console.log(req.query)
   var query = {
-    query: {
-      match: req.query
+    "query": {
+      "match": req.query
     }
   }
 
