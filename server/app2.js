@@ -30,7 +30,34 @@ router.get('/loadData', function (req, res) {
   elastic.readData()
     .then((resul) => {
       elastic.AddData(resul, client)
-        .then((resul2) => { res.send(resul2) })
+        .then((resul2) => {
+          client.indices.putMapping({
+            index: "inspectionsrestaurant",
+            type: "inspectionrestaurant",
+            body: {
+              "properties": {
+                "restaurant": {
+                  "properties": {
+                    "title": {
+                      "fielddata": true,
+                      "type" : "text"
+                    },
+                    "borough": {
+                      "fielddata": true,
+                      "type" : "text"
+                    },
+                    "cuisineType": {
+                      "fielddata": true,
+                      "type" : "text"
+                    }
+                  }
+                }
+              }
+            }
+
+          })
+          res.send(resul2)
+        })
         .catch((err) => { console.log("ERROR OCCURED : " + err) })
     })
     .catch((err) => {
@@ -69,32 +96,51 @@ router.get('/:index/:type', function (req, res) {
 
 router.get('/restaurants', function (req, res) {
   console.log(req.query)
+  var elasticQuery = {};
+  if (req.query.page) {
+    elasticQuery.from = req.query.page
+  }
+  if (req.query.sort) {
+    elasticQuery.sort = [{ [req.query.sort]: { order: "asc" } }]
+  }
   var search = req.query;
-
   if (Object.keys(search).length > 1) {
     var match = []
     for (name in search) {
-      var sear = { match: { [name]: search[name] } }
-      match.push(sear);
+      if (name != "page" && search[name] != "" && search[name] != "sort") {
+        var sear = { match: { [name]: search[name] } }
+        match.push(sear);
+      }
     }
-
-
-    var query = {
-      query: {
-        bool: {
-          must: match
-        }
+    elasticQuery.query = {
+      bool: {
+        must: match
       }
     }
   } else {
-    var query = {
-      query: {
-        match: search
+    if (req.query.page) {
+      elasticQuery = {
+        from: req.query.page * 10
+      }
+    } else {
+      if (req.query.sort) {
+        elasticQuery = {
+          sort: {
+            [req.query.sort]: { order: "asc" }
+          }
+        }
+      }
+      else {
+        elasticQuery = {
+          query: {
+            match: search
+          }
+        }
       }
     }
   }
 
-  query = JSON.stringify(query);
+  query = JSON.stringify(elasticQuery);
   console.log(query)
   client.search({
     index: 'inspectionsrestaurant',
