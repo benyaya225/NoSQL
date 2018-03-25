@@ -5,8 +5,9 @@
   "main": "app.js",
   "scripts": {
     "server": "node app2",
+    "start": "nodemon app2",
     "client": "cd ../client2 && npm start",
-    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "dev": "concurrently --kill-others-on-fail \"npm start\" \"npm run client\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,6 +24,7 @@
     "elasticsearch": "^14.2.1",
     "express": "^4.16.3",
     "mongoose": "^5.0.10",
-    "mongoose-schema-extend": "^0.2.2"
+    "mongoose-schema-extend": "^0.2.2",
+    "nodemon": "^1.17.2"
   }
 }

@@ -41,47 +41,67 @@ router.get('/loadData', function (req, res) {
 /**
  * Delete an index
  */
-router.get('/delete/:index', function(req,res){
-  elastic.DeleteIndex(req.params.index,client)
-  .then((result)=>{
-    res.send(result)
-    console.log(result)
-  })
-  .catch((err)=>{
-    console.log(err)
-    res.send(err)
-  })
+router.get('/delete/:index', function (req, res) {
+  elastic.DeleteIndex(req.params.index, client)
+    .then((result) => {
+      res.send(result)
+      console.log(result)
+    })
+    .catch((err) => {
+      console.log(err)
+      res.send(err)
+    })
 })
 
 /**
  * Retrieve all inspections_restaurant from elasticSearch
  */
 router.get('/:index/:type', function (req, res) {
-  var config = {index : req.params.index , type : req.params.type}
-  elastic.Search(client,config)
-  .then((result)=> {
-    res.send(result)
-  })
-  .catch((err)=> {
-    res.send(err)
-  })
+  var config = { index: req.params.index, type: req.params.type }
+  elastic.Search(client, config)
+    .then((result) => {
+      res.send(result)
+    })
+    .catch((err) => {
+      res.send(err)
+    })
 })
 
 router.get('/restaurants', function (req, res) {
-  var search = req.query
-  console.log(search)
   console.log(req.query)
-  var query = {
-    "query": {
-      "match": req.query
+  var search = req.query;
+
+  if (Object.keys(search).length > 1) {
+    var match = []
+    for (name in search) {
+      var sear = { match: { [name]: search[name] } }
+      match.push(sear);
+    }
+
+
+    var query = {
+      query: {
+        bool: {
+          must: match
+        }
+      }
+    }
+  } else {
+    var query = {
+      query: {
+        match: search
+      }
     }
   }
 
+  query = JSON.stringify(query);
+  console.log(query)
   client.search({
     index: 'inspectionsrestaurant',
     type: 'inspectionrestaurant',
     body: query
   }, function (error, response) {
+    console.log(response)
     res.send(response)
   });
 })
