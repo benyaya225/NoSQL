@@ -6,7 +6,7 @@ Visual interface using react to render some data providing from ElasticSearch
 
 clone the repository and use npm to install dependencies in server and client folder 
 
-`cd client && npm install`
+`cd client2 && npm install`
 
 `cd server && npm install`
 
